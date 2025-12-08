@@ -42,7 +42,7 @@ def fft_analysis(img):
     fshift = fftshift(f)
     magnitude = np.log(np.abs(fshift) + 1)
 
-    # GAN images عادة فيها نمط "grid" في FFT
+    # GAN images "grid" FFT
     fft_variance = np.std(magnitude)
     return fft_variance
 
@@ -95,30 +95,27 @@ def final_analysis(img, path=None):
     print(f"JPEG Avg QTable:     {jpeg_q}")
     print("==========================================")
 
-    # ---- Decision Engine ----
+
     ai_score = 0
 
-    # Noise very low → strongly AI
+
     if std < 3: ai_score += 2
     elif std < 6: ai_score += 1
 
-    # FFT pattern too uniform → AI
+
     if fft_var < 60:
         ai_score += 2
     elif fft_var < 80:
         ai_score += 1
 
-    # Texture too soft → AI
     if tex < 0.007:
         ai_score += 2
     elif tex < 0.013:
         ai_score += 1
 
-    # JPEG QTables unusual → AI
     if jpeg_q is not None and jpeg_q < 18:
         ai_score += 1
 
-    # Final decision
     if ai_score >= 5:
         verdict = "AI (Highly likely)"
     elif ai_score >= 3:
