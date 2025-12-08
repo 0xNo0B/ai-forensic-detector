@@ -49,7 +49,7 @@ def extract_noise(img):
 
 
 def save_noise_heatmap(noise, output_path="noise_heatmap.png"):
-    # Normalize noise for visualization
+    # Normal noise for visualization
     norm_noise = (noise - noise.min()) / (noise.max() - noise.min() + 1e-8)
 
     plt.figure(figsize=(6, 6))
@@ -96,19 +96,18 @@ def texture_score(img):
 # Model Identifier (MJ / SD / DALL-E / REAL)
 # -----------------------------------------------------
 def identify_model(std_noise, fft_var, tex):
-    # --- Midjourney Signature (ناعمة جداً، FFT أقل، edges قليلة) ---
+
     if std_noise < 2.5 and fft_var < 70 and tex < 0.008:
         return "Midjourney"
 
-    # --- Stable Diffusion (تفاصيل أعلى، FFT أعلى قليلاً، noise متوسط) ---
+
     if 2.5 <= std_noise <= 4.5 and 70 <= fft_var <= 85:
         return "Stable Diffusion"
 
-    # --- DALL-E (ألوان ناعمة، FFT أعلى، edges قليلة) ---
     if std_noise < 3.5 and fft_var > 85 and tex < 0.010:
         return "DALL-E"
 
-    # --- Real Camera (noise أعلى و edges أكثر) ---
+
     if std_noise > 6 and tex > 0.012:
         return "Real Camera"
 
@@ -119,45 +118,41 @@ def identify_model(std_noise, fft_var, tex):
 # Final Forensic AI Analysis + Binary Verdict
 # -----------------------------------------------------
 def analyze_image(img, src):
-    # 1) Noise + stats
+
     noise = extract_noise(img)
     mean_noise, std_noise, energy_noise = noise_statistics(noise)
 
-    # 2) FFT variance
+
     fft_var = fft_analysis(img)
 
-    # 3) Texture / edges
+
     tex = texture_score(img)
 
-    # 4) Visualizations
+
     fft_path = save_fft_visualization(img)
     heatmap_path = save_noise_heatmap(noise)
 
-    # 5) Model guess (Midjourney / SD / DALL-E / Real)
+
     model_type = identify_model(std_noise, fft_var, tex)
 
-    # 6) AI score heuristic (for final binary verdict)
+
     ai_score = 0
 
-    # Noise too low → likely AI
     if std_noise < 3:
         ai_score += 2
     elif std_noise < 6:
         ai_score += 1
 
-    # FFT too regular / low variance → AI/GAN-ish
     if fft_var < 60:
         ai_score += 2
     elif fft_var < 80:
         ai_score += 1
 
-    # Texture too soft → AI
     if tex < 0.008:
         ai_score += 2
     elif tex < 0.013:
         ai_score += 1
 
-    # Final binary verdict
     if ai_score >= 4:
         binary_verdict = "AI"
     else:
