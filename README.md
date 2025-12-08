@@ -16,5 +16,5 @@ It generates:
 
 Before using the tool, install the required dependencies:
 
-bash
+```bash
 pip install numpy opencv-python pillow scipy matplotlib requests
