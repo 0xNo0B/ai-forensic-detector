@@ -5,7 +5,7 @@ import requests
 import io
 import sys
 
-
+# Simpal Detector 
 def load_image(src):
     if src.startswith("http"):
         data = requests.get(src, timeout=10).content
