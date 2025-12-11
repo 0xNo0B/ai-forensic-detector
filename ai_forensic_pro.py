@@ -118,6 +118,7 @@ def extract_noise(img: np.ndarray) -> np.ndarray:
     return noise
 
 
+<<<<<<< HEAD
 def save_noise_heatmap(noise: np.ndarray, output_path: str = "noise_heatmap.png") -> str:
     """
     Save noise distribution heatmap (PRNU).
@@ -135,6 +136,11 @@ def save_noise_heatmap(noise: np.ndarray, output_path: str = "noise_heatmap.png"
     try:
         # Normalize noise for visualization
         norm_noise = (noise - noise.min()) / (noise.max() - noise.min() + 1e-8)
+=======
+def save_noise_heatmap(noise, output_path="noise_heatmap.png"):
+    # Normal noise for visualization
+    norm_noise = (noise - noise.min()) / (noise.max() - noise.min() + 1e-8)
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
 
         plt.figure(figsize=(8, 8), dpi=100)
         im = plt.imshow(norm_noise, cmap="jet")
@@ -217,6 +223,7 @@ def texture_score(img: np.ndarray) -> float:
     return edge_density
 
 
+<<<<<<< HEAD
 # ============================================================
 # Identify Generative Model Type
 # ============================================================
@@ -242,21 +249,39 @@ def identify_model(std_noise: float, fft_var: float, tex: float) -> str:
     logger.info(f"Analyzing model signature - Noise:{std_noise:.2f}, FFT:{fft_var:.2f}, Tex:{tex:.6f}")
     
     # --- Midjourney (very smooth) ---
+=======
+# -----------------------------------------------------
+# Model Identifier (MJ / SD / DALL-E / REAL)
+# -----------------------------------------------------
+def identify_model(std_noise, fft_var, tex):
+
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if std_noise < 2.5 and fft_var < 70 and tex < 0.008:
         logger.info("Model identified: Midjourney")
         return "Midjourney"
 
+<<<<<<< HEAD
     # --- Stable Diffusion (good details) ---
+=======
+
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if 2.5 <= std_noise <= 4.5 and 70 <= fft_var <= 85:
         logger.info("Model identified: Stable Diffusion")
         return "Stable Diffusion"
 
+<<<<<<< HEAD
     # --- DALL-E (soft colors) ---
+=======
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if std_noise < 3.5 and fft_var > 85 and tex < 0.010:
         logger.info("Model identified: DALL-E")
         return "DALL-E"
 
+<<<<<<< HEAD
     # --- Real Camera (high noise) ---
+=======
+
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if std_noise > 6 and tex > 0.012:
         logger.info("Model identified: Real Camera")
         return "Real Camera"
@@ -265,6 +290,7 @@ def identify_model(std_noise: float, fft_var: float, tex: float) -> str:
     return "Unknown AI / Mixed"
 
 
+<<<<<<< HEAD
 # ============================================================
 # Comprehensive Analysis and Final Verdict
 # ============================================================
@@ -311,24 +337,59 @@ def analyze_image(img: np.ndarray, src: str) -> Tuple[str, str]:
     ai_score = 0
 
     # Noise criterion
+=======
+# -----------------------------------------------------
+# Final Forensic AI Analysis + Binary Verdict
+# -----------------------------------------------------
+def analyze_image(img, src):
+
+    noise = extract_noise(img)
+    mean_noise, std_noise, energy_noise = noise_statistics(noise)
+
+
+    fft_var = fft_analysis(img)
+
+
+    tex = texture_score(img)
+
+
+    fft_path = save_fft_visualization(img)
+    heatmap_path = save_noise_heatmap(noise)
+
+
+    model_type = identify_model(std_noise, fft_var, tex)
+
+
+    ai_score = 0
+
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if std_noise < 3:
         ai_score += 2
     elif std_noise < 6:
         ai_score += 1
 
+<<<<<<< HEAD
     # FFT criterion
+=======
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if fft_var < 60:
         ai_score += 2
     elif fft_var < 80:
         ai_score += 1
 
+<<<<<<< HEAD
     # Texture criterion
+=======
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if tex < 0.008:
         ai_score += 2
     elif tex < 0.013:
         ai_score += 1
 
+<<<<<<< HEAD
     # Final verdict
+=======
+>>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if ai_score >= 4:
         binary_verdict = "🤖 AI-Generated Image"
         confidence = "High"
