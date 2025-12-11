@@ -20,6 +20,7 @@ The tool uses **real forensic techniques** instead of relying on external AI mod
 ### 1️⃣ PRNU Analysis (Photo Response Non-Uniformity)
 
 <<<<<<< HEAD
+
 - Extract unique camera fingerprint from the image
 - AI-generated images typically lack this fingerprint
 - Calculate noise statistics (Mean, Std, Energy)
@@ -50,7 +51,7 @@ The tool uses **real forensic techniques** instead of relying on external AI mod
 Install required libraries:
 
 =======
->>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
+
 ```bash
 pip install numpy opencv-python pillow scipy matplotlib requests
 ```
