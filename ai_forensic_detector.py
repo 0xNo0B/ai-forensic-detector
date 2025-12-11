@@ -115,11 +115,6 @@ def fft_analysis(img: np.ndarray) -> float:
     f = fft2(gray)
     fshift = fftshift(f)
     magnitude = np.log(np.abs(fshift) + 1)
-<<<<<<< HEAD
-=======
-
-    # GAN images "grid" FFT
->>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     fft_variance = np.std(magnitude)
     
     logger.debug(f"FFT Variance: {fft_variance:.4f}")
@@ -226,7 +221,6 @@ def final_analysis(img: np.ndarray, path: Optional[str] = None) -> str:
         print(f"JPEG QTable Average: {jpeg_q:.2f}")
     print("="*50)
 
-<<<<<<< HEAD
     # Advanced decision engine
     ai_score = 0
 
@@ -239,16 +233,6 @@ def final_analysis(img: np.ndarray, path: Optional[str] = None) -> str:
         logger.info("⚠️  Low noise - likely AI-generated")
 
     # 2️⃣ FFT criterion (high weight)
-=======
-
-    ai_score = 0
-
-
-    if std < 3: ai_score += 2
-    elif std < 6: ai_score += 1
-
-
->>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if fft_var < 60:
         ai_score += 2
         logger.warning("⚠️  Very regular FFT spectrum - indicates artificial patterns")
@@ -256,10 +240,7 @@ def final_analysis(img: np.ndarray, path: Optional[str] = None) -> str:
         ai_score += 1
         logger.info("⚠️  Regular FFT spectrum - likely AI-generated")
 
-<<<<<<< HEAD
     # 3️⃣ Texture criterion
-=======
->>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if tex < 0.007:
         ai_score += 2
         logger.warning("⚠️  Very soft edges - indicator of AI generation")
@@ -267,18 +248,12 @@ def final_analysis(img: np.ndarray, path: Optional[str] = None) -> str:
         ai_score += 1
         logger.info("⚠️  Relatively soft edges - likely AI-generated")
 
-<<<<<<< HEAD
     # 4️⃣ JPEG criterion
-=======
->>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if jpeg_q is not None and jpeg_q < 18:
         ai_score += 1
         logger.info("⚠️  Unusual JPEG quantization tables")
 
-<<<<<<< HEAD
     # Final verdict
-=======
->>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
     if ai_score >= 5:
         verdict = "🤖 AI-Generated (very high probability)"
         confidence = "95-100%"

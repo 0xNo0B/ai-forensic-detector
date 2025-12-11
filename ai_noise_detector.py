@@ -23,7 +23,6 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-<<<<<<< HEAD
 
 def load_image(src: str) -> Optional[np.ndarray]:
     """
@@ -60,16 +59,6 @@ def load_image(src: str) -> Optional[np.ndarray]:
     except Exception as e:
         logger.error(f"Unexpected error loading image: {e}")
         return None
-=======
-# Simpal Detector 
-def load_image(src):
-    if src.startswith("http"):
-        data = requests.get(src, timeout=10).content
-        return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
-
-    img = cv2.imread(src)
-    return img
->>>>>>> 9429d53dcb8dd02ed69d256c0ca594b306f402a8
 
 
 def extract_noise(img: np.ndarray) -> np.ndarray:
